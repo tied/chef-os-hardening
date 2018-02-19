@@ -35,6 +35,7 @@ It will not:
 
 ## Attributes
 
+* `['os-hardening']['container']['enable']` - true if this is a container. Default value is based on the information provided by ohai
 * `['os-hardening']['desktop']['enable'] = false`
   true if this is a desktop system, ie Xorg, KDE/GNOME/Unity/etc
 * `['os-hardening']['network']['forwarding'] = false`

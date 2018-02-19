@@ -20,6 +20,10 @@
 # limitations under the License.
 #
 
+# Detect if we run in the container and set the sane default
+node.default['os-hardening']['container']['enable'] =
+  node['virtualization']['system'] =~ /^(lxc|docker)$/ && node['virtualization']['role'] == 'guest'
+
 include_recipe('os-hardening::packages')
 include_recipe('os-hardening::limits')
 include_recipe('os-hardening::login_defs')
@@ -28,6 +32,6 @@ include_recipe('os-hardening::pam')
 include_recipe('os-hardening::profile')
 include_recipe('os-hardening::securetty')
 include_recipe('os-hardening::suid_sgid') if node['os-hardening']['security']['suid_sgid']['enforce']
-include_recipe('os-hardening::sysctl')
-include_recipe('os-hardening::auditd')
+include_recipe('os-hardening::sysctl') unless node['os-hardening']['container']['enable']
+include_recipe('os-hardening::auditd') unless node['os-hardening']['container']['enable']
 include_recipe('os-hardening::selinux') if node['platform_family'] == 'rhel' || node['platform_family'] == 'fedora'
